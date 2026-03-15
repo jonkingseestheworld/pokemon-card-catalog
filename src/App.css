@@ -1,0 +1,325 @@
+/* ── Type colour palette ──────────────────────────────────────────────── */
+:root {
+  --c-grass:    #78c850;
+  --c-fire:     #f08030;
+  --c-water:    #6890f0;
+  --c-electric: #d8c813;
+  --c-psychic:  #f85888;
+  --c-normal:   #a8a878;
+  --c-ghost:    #705898;
+  --c-dragon:   #7038f8;
+  --c-fighting: #c03028;
+  --c-rock:     #b8a038;
+
+  --card-bg:    #ffffff;
+  --card-radius: 18px;
+  --card-shadow: 0 4px 20px rgba(0,0,0,0.12);
+}
+
+/* ── Global reset ─────────────────────────────────────────────────────── */
+*, *::before, *::after { box-sizing: border-box; }
+
+body {
+  margin: 0;
+  background: linear-gradient(180deg, #edeab5 0%, #f0f2f5 100%);
+  min-height: 100vh;
+  font-family: 'Share Tech', sans-serif;
+  color: #2d2d2d;
+}
+
+/* ── Loading screen ───────────────────────────────────────────────────── */
+.loading-screen {
+  min-height: 100vh;
+  background: linear-gradient(180deg, #edeab5 0%, #f0f2f5 100%);
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 28px;
+}
+
+.loading-logo {
+  max-width: 240px;
+  width: 100%;
+  height: auto;
+}
+
+.loading-card {
+  background: transparent;
+  border-radius: 18px;
+  box-shadow: 0 4px 20px rgba(0,0,0,0.12);
+  padding: 90px 24px;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+}
+
+.loading-gif {
+  width: 280px;
+  height: auto;
+  border-radius: 8px;
+  display: block;
+}
+
+/* ── App shell ────────────────────────────────────────────────────────── */
+.app {
+  max-width: 1200px;
+  margin: 0 auto;
+  padding: 0 24px 48px;
+}
+
+/* ── Sticky top wrapper ───────────────────────────────────────────────── */
+.sticky-top {
+  position: sticky;
+  top: 0;
+  z-index: 100;
+  background: rgba(237, 234, 181, 0.75);
+  backdrop-filter: blur(10px);
+  padding-bottom: 4px;
+  box-shadow: 0 0px 0px rgba(0,0,0,0);
+}
+
+/* ── Header ───────────────────────────────────────────────────────────── */
+.site-header {
+  text-align: center;
+  padding: 16px 0 8px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  gap: 10px;
+}
+
+.site-logo {
+  max-width: 220px;
+  width: 100%;
+  height: auto;
+}
+
+/* ── Pokéball toggle button ───────────────────────────────────────────── */
+.ball-toggle {
+  background: none;
+  border: none;
+  padding: 0;
+  cursor: pointer;
+  border-radius: 50%;
+  transition: transform 0.2s ease, filter 0.2s ease;
+}
+
+.ball-toggle:hover {
+  transform: scale(1.12) rotate(20deg);
+  filter: drop-shadow(0 4px 10px rgba(0,0,0,0.25));
+}
+
+.ball-icon {
+  width: 40px;
+  height: 40px;
+  display: block;
+}
+
+/* ── Filter bar ───────────────────────────────────────────────────────── */
+.filter-bar {
+  display: flex;
+  flex-direction: column;
+  gap: 6px;
+  align-items: center;
+  padding: 10px 0 14px;
+}
+
+.filter-row {
+  display: flex;
+  gap: 8px;
+  justify-content: center;
+}
+
+.filter-btn {
+  font-family: 'Share Tech', sans-serif;
+  font-size: 0.85rem;
+  letter-spacing: 0.8px;
+  text-transform: uppercase;
+  padding: 7px 16px;
+  border: 2px solid #ccc;
+  border-radius: 999px;
+  background: #fff;
+  color: #555;
+  cursor: pointer;
+  transition: all 0.18s ease;
+}
+
+.filter-btn:hover {
+  border-color: #888;
+  color: #111;
+  background: #f5f5f5;
+}
+
+.filter-btn.active {
+  background: #1a1a2e;
+  border-color: #1a1a2e;
+  color: #fff;
+}
+
+/* ── Card grid ────────────────────────────────────────────────────────── */
+.card-grid {
+  display: grid;
+  grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+  gap: 24px;
+}
+
+/* ── Card ─────────────────────────────────────────────────────────────── */
+.card {
+  background: var(--card-bg);
+  border-radius: var(--card-radius);
+  box-shadow: var(--card-shadow);
+  overflow: hidden;
+  display: flex;
+  flex-direction: column;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
+}
+
+.card:hover {
+  transform: translateY(-5px);
+  box-shadow: 0 10px 30px rgba(0,0,0,0.18);
+}
+
+/* ── Card header (type-coloured band) ────────────────────────────────── */
+.card-header {
+  padding: 16px 16px 10px;
+  text-align: center;
+  color: #fff;
+  border-radius: var(--card-radius) var(--card-radius) 0 0;
+}
+
+.type-grass    .card-header { background: var(--c-grass); }
+.type-fire     .card-header { background: var(--c-fire); }
+.type-water    .card-header { background: var(--c-water); }
+.type-electric .card-header { background: var(--c-electric); color: #fff; }
+.type-psychic  .card-header { background: var(--c-psychic); }
+.type-normal   .card-header { background: var(--c-normal); }
+.type-ghost    .card-header { background: var(--c-ghost); }
+.type-dragon   .card-header { background: var(--c-dragon); }
+.type-fighting .card-header { background: var(--c-fighting); }
+.type-rock     .card-header { background: var(--c-rock); }
+
+.card-name {
+  font-family: 'Share Tech', sans-serif;
+  font-size: 1.15rem;
+  letter-spacing: 1px;
+  margin: 0 0 6px;
+  font-weight: 400;
+  text-transform: uppercase;
+}
+
+.card-type {
+  font-family: 'Share Tech', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 1.5px;
+  text-transform: uppercase;
+  background: rgba(255,255,255,0.25);
+  padding: 2px 10px;
+  border-radius: 999px;
+  display: inline-block;
+}
+
+/* ── Circular sprite area ─────────────────────────────────────────────── */
+.card-image-wrapper {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  padding: 20px 0 16px;
+  background: #fff;
+}
+
+.card-image-circle {
+  width: 100px;
+  height: 100px;
+  border-radius: 50%;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  box-shadow: 0 2px 12px rgba(0,0,0,0.12);
+}
+
+.type-grass    .card-image-circle { background: #e8f5e0; }
+.type-fire     .card-image-circle { background: #fff0e0; }
+.type-water    .card-image-circle { background: #e0ecff; }
+.type-electric .card-image-circle { background: #fffbd0; }
+.type-psychic  .card-image-circle { background: #ffe0ee; }
+.type-normal   .card-image-circle { background: #f0f0e8; }
+.type-ghost    .card-image-circle { background: #ede0f5; }
+.type-dragon   .card-image-circle { background: #e8e0ff; }
+.type-fighting .card-image-circle { background: #f5e0e0; }
+.type-rock     .card-image-circle { background: #f0ebe0; }
+
+.card-sprite {
+  width: 88px;
+  height: 88px;
+  image-rendering: pixelated;
+  object-fit: contain;
+}
+
+.card-sprite--ball {
+  image-rendering: auto;
+  opacity: 0.85;
+}
+
+/* ── Stats section ────────────────────────────────────────────────────── */
+.card-stats {
+  padding: 14px 20px 20px;
+  display: flex;
+  flex-direction: column;
+  gap: 10px;
+  flex: 1;
+  background: #fff;
+}
+
+.stat {
+  display: flex;
+  flex-direction: column;
+  gap: 4px;
+}
+
+.stat-header {
+  display: flex;
+  justify-content: space-between;
+  align-items: baseline;
+}
+
+.stat-label {
+  font-family: 'Share Tech', sans-serif;
+  font-size: 0.72rem;
+  letter-spacing: 1px;
+  text-transform: uppercase;
+  color: #888;
+}
+
+.stat-value {
+  font-family: 'Share Tech', sans-serif;
+  font-size: 0.9rem;
+  color: #2d2d2d;
+  font-weight: 400;
+}
+
+.stat-track {
+  height: 7px;
+  background: #e8e8e8;
+  border-radius: 999px;
+  overflow: hidden;
+}
+
+.stat-fill {
+  height: 100%;
+  border-radius: 999px;
+  transition: width 0.4s ease;
+}
+
+/* HP bar colour per type */
+.type-grass    .stat-fill { background: var(--c-grass); }
+.type-fire     .stat-fill { background: var(--c-fire); }
+.type-water    .stat-fill { background: var(--c-water); }
+.type-electric .stat-fill { background: #d4a800; }
+.type-psychic  .stat-fill { background: var(--c-psychic); }
+.type-normal   .stat-fill { background: var(--c-normal); }
+.type-ghost    .stat-fill { background: var(--c-ghost); }
+.type-dragon   .stat-fill { background: var(--c-dragon); }
+.type-fighting .stat-fill { background: var(--c-fighting); }
+.type-rock     .stat-fill { background: var(--c-rock); }
