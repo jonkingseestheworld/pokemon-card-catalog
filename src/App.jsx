@@ -49,8 +49,9 @@ function StatBar({ label, value, max }) {
   )
 }
 
-function PokemonCard({ pokemon, revealed }) {
+function PokemonCard({ pokemon, revealed, flipped, onImageClick }) {
   const spriteUrl = `https://raw.githubusercontent.com/PokeAPI/sprites/master/sprites/pokemon/${pokemon.id}.png`
+  const showSprite = flipped ? !revealed : revealed
   return (
     <div className={`card type-${pokemon.type.toLowerCase()}`}>
       <div className="card-header">
@@ -58,8 +59,8 @@ function PokemonCard({ pokemon, revealed }) {
         <span className="card-type">{pokemon.type}</span>
       </div>
       <div className="card-image-wrapper">
-        <div className="card-image-circle">
-          {revealed ? (
+        <div className="card-image-circle" onClick={onImageClick} style={{ cursor: 'pointer' }}>
+          {showSprite ? (
             <img src={spriteUrl}   alt={pokemon.name}   className="card-sprite" />
           ) : (
             <img src={ballClosed}  alt="Pokémon hidden" className="card-sprite card-sprite--ball" />
@@ -86,9 +87,10 @@ function LoadingScreen() {
 }
 
 function App() {
-  const [loading,  setLoading]  = useState(true)
-  const [filter,   setFilter]   = useState('Show All')
-  const [revealed, setRevealed] = useState(false)
+  const [loading,    setLoading]    = useState(true)
+  const [filter,     setFilter]     = useState('Show All')
+  const [revealed,   setRevealed]   = useState(false)
+  const [flippedIds, setFlippedIds] = useState(new Set())
 
   useEffect(() => {
     const timer = setTimeout(() => setLoading(false), 5000)
@@ -109,7 +111,7 @@ function App() {
 
           <button
             className="ball-toggle"
-            onClick={() => setRevealed(r => !r)}
+            onClick={() => { setRevealed(r => !r); setFlippedIds(new Set()) }}
             title={revealed ? 'Reveal Pokémon' : 'Hide Pokémon'}
           >
             <img
@@ -139,7 +141,17 @@ function App() {
 
       <main className="card-grid">
         {visiblePokemons.map(pokemon => (
-          <PokemonCard key={pokemon.id} pokemon={pokemon} revealed={revealed} />
+          <PokemonCard
+            key={pokemon.id}
+            pokemon={pokemon}
+            revealed={revealed}
+            flipped={flippedIds.has(pokemon.id)}
+            onImageClick={() => setFlippedIds(prev => {
+              const next = new Set(prev)
+              next.has(pokemon.id) ? next.delete(pokemon.id) : next.add(pokemon.id)
+              return next
+            })}
+          />
         ))}
       </main>
     </div>
